@@ -20,10 +20,6 @@
                         <label class="form-label">Quantité</label>
                         <input type="number" name="quantity" class="form-control" min="1" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Motif</label>
-                        <input type="text" name="motif" class="form-control" placeholder="Vente, casse, transfert...">
-                    </div>
                     <button class="btn btn-danger">Enregistrer la sortie</button>
                 </form>
             </div>

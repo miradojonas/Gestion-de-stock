@@ -9,14 +9,19 @@
 </div>
 
 <div class="card card-shadow">
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="productSearch" class="form-label">Rechercher un produit</label>
+            <input type="search" id="productSearch" class="form-control" placeholder="Recherche par nom, catégorie ou type...">
+        </div>
+    </div>
     <div class="table-responsive">
-        <table class="table mb-0 align-middle">
+        <table class="table mb-0 align-middle" id="productTable">
             <thead>
             <tr>
                 <th>Libellé</th>
                 <th>Catégorie</th>
                 <th>Type</th>
-                <th>PA</th>
                 <th>PV</th>
                 <th>Qté</th>
                 <th>Min</th>
@@ -43,7 +48,6 @@
                     </td>
                     <td><?= e($product['category_name'] ?? '-') ?></td>
                     <td><?= e($product['type_name'] ?? '-') ?></td>
-                    <td><?= e(number_format((float) $product['prix_achat'], 2, ',', ' ')) ?></td>
                     <td><?= e(number_format((float) $product['prix_vente'], 2, ',', ' ')) ?></td>
                     <td>
                         <span class="badge <?= ((int) $product['quantite'] <= (int) $product['stock_min']) ? 'text-bg-warning' : 'text-bg-success' ?>">
@@ -69,8 +73,29 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-    </div>
+        </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('productSearch');
+        const table = document.getElementById('productTable');
+
+        if (!searchInput || !table) {
+            return;
+        }
+
+        searchInput.addEventListener('input', function () {
+            const filter = searchInput.value.trim().toLowerCase();
+            const rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach(function (row) {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+    });
+</script>
 
 <div class="modal fade" id="saleModal" tabindex="-1" aria-labelledby="saleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -97,10 +122,6 @@
                             <input type="number" name="quantity" id="saleQuantity" class="form-control text-center" value="1" min="1" step="1" required>
                             <button type="button" class="btn btn-outline-secondary" id="salePlus">+</button>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Motif</label>
-                        <input type="text" name="motif" class="form-control" placeholder="Vente, casse, promotion...">
                     </div>
                     <div class="alert alert-warning d-none" id="saleAlert"></div>
                 </div>

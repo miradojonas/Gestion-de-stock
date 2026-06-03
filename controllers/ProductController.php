@@ -34,11 +34,27 @@ class ProductController
             redirect_to('product/create');
         }
 
-        $productModel = new Product();
-        $productModel->create($this->payloadFromRequest());
+        try {
+            $productModel = new Product();
+            $payload = $this->payloadFromRequest();
+            $productModel->create($payload);
 
-        flash('success', 'Produit ajouté.');
-        redirect_to('product/index');
+            $createdProductId = (int) db()->lastInsertId();
+            if ($createdProductId > 0 && $payload['quantite'] > 0) {
+                (new StockMovement())->create([
+                    'product_id' => $createdProductId,
+                    'movement_type' => 'IN',
+                    'quantity' => $payload['quantite'],
+                    'user_id' => current_user()['id'],
+                ]);
+            }
+
+            flash('success', 'Produit ajouté.');
+            redirect_to('product/index');
+        } catch (Throwable $e) {
+            flash('error', $e->getMessage());
+            redirect_to('product/create');
+        }
     }
 
     public function edit(): void
@@ -70,10 +86,16 @@ class ProductController
         }
 
         $id = (int) ($_GET['id'] ?? 0);
-        (new Product())->update($id, $this->payloadFromRequest());
 
-        flash('success', 'Produit mis à jour.');
-        redirect_to('product/index');
+        try {
+            (new Product())->update($id, $this->payloadFromRequest());
+
+            flash('success', 'Produit mis à jour.');
+            redirect_to('product/index');
+        } catch (Throwable $e) {
+            flash('error', $e->getMessage());
+            redirect_to('product/edit', ['id' => $id]);
+        }
     }
 
     public function delete(): void
@@ -143,10 +165,14 @@ class ProductController
             throw new RuntimeException('Impossible de créer le dossier d’upload.');
         }
 
+        if (!is_writable($uploadDir) && !chmod($uploadDir, 0755)) {
+            throw new RuntimeException('Le dossier d’upload n’est pas accessible en écriture.');
+        }
+
         $destination = $uploadDir . '/' . $filename;
 
-        if (!move_uploaded_file($_FILES['image_file']['tmp_name'], $destination)) {
-            throw new RuntimeException('Impossible de déplacer le fichier uploadé.');
+        if (!is_uploaded_file($_FILES['image_file']['tmp_name']) || !move_uploaded_file($_FILES['image_file']['tmp_name'], $destination)) {
+            throw new RuntimeException('Impossible de déplacer le fichier uploadé. Vérifie les permissions du dossier uploads.');
         }
 
         return 'uploads/' . $filename;

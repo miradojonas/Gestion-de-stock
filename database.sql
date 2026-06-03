@@ -12,6 +12,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('ADMIN', 'VENDEUR') NOT NULL DEFAULT 'VENDEUR',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -61,7 +62,6 @@ CREATE TABLE stock_movements (
     quantity INT NOT NULL,
     date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     user_id INT UNSIGNED NOT NULL,
-    motif VARCHAR(255) DEFAULT NULL,
     CONSTRAINT fk_movements_product
         FOREIGN KEY (product_id) REFERENCES products(id)
         ON DELETE CASCADE ON UPDATE CASCADE,
@@ -72,9 +72,9 @@ CREATE TABLE stock_movements (
     INDEX idx_movements_type (movement_type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO users (username, password_hash, role) VALUES
-('admin', '$2y$10$BsNvcBxx8l2XViTw5TqYOO/sZrskk9bnkqahEOsoic8Ht6RAbpg.K', 'ADMIN'),
-('vendeur', '$2y$10$vyG2mRv8MXokItFvEno1UeAGN8I7Z1WUVDC9Phg3a40QLI3RTVeg.', 'VENDEUR');
+INSERT INTO users (username, email, password_hash, role) VALUES
+('admin', 'admin@example.com', '$2y$10$BsNvcBxx8l2XViTw5TqYOO/sZrskk9bnkqahEOsoic8Ht6RAbpg.K', 'ADMIN'),
+('vendeur', 'vendeur@example.com', '$2y$10$vyG2mRv8MXokItFvEno1UeAGN8I7Z1WUVDC9Phg3a40QLI3RTVeg.', 'VENDEUR');
 
 INSERT INTO categories (name) VALUES
 ('Fournitures'),

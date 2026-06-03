@@ -11,7 +11,8 @@ class StockMovement extends BaseModel
         $limit = max(1, $limit);
 
         return $this->fetchAll(
-            "SELECT m.*, p.libelle AS product_name, u.username
+            "SELECT m.*, p.libelle AS product_name, u.username, u.email,
+                    IF(m.movement_type = 'OUT', p.prix_vente * m.quantity, NULL) AS total_amount
              FROM stock_movements m
              INNER JOIN products p ON p.id = m.product_id
              INNER JOIN users u ON u.id = m.user_id
@@ -25,7 +26,8 @@ class StockMovement extends BaseModel
         $limit = max(1, $limit);
 
         return $this->fetchAll(
-            "SELECT m.*, p.libelle AS product_name, u.username
+            "SELECT m.*, p.libelle AS product_name, u.username, u.email,
+                    IF(m.movement_type = 'OUT', p.prix_vente * m.quantity, NULL) AS total_amount
              FROM stock_movements m
              INNER JOIN products p ON p.id = m.product_id
              INNER JOIN users u ON u.id = m.user_id
@@ -47,8 +49,8 @@ class StockMovement extends BaseModel
     public function create(array $data): bool
     {
         return $this->execute(
-            'INSERT INTO stock_movements (product_id, movement_type, quantity, date, user_id, motif)
-             VALUES (:product_id, :movement_type, :quantity, NOW(), :user_id, :motif)',
+            'INSERT INTO stock_movements (product_id, movement_type, quantity, date, user_id)
+             VALUES (:product_id, :movement_type, :quantity, NOW(), :user_id)',
             $data
         );
     }

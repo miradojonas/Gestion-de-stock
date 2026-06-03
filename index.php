@@ -44,7 +44,7 @@ try {
     $controller->$actionMethod();
 } catch (Throwable $throwable) {
     http_response_code(500);
-    $errorMessage = 'Impossible de charger l’application. Vérifie la configuration MySQL dans config/db.php et l’import de database.sql.';
+    $errorMessage = 'Une erreur est survenue lors du traitement de la requête. Vérifie la configuration et réessaye.';
 
     if (APP_DEBUG) {
         $errorMessage .= ' Détail: ' . $throwable->getMessage();

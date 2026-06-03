@@ -6,17 +6,40 @@
                 <p class="text-muted small mb-4">Accédez à l’application de gestion de stock.</p>
                 <form method="post" action="<?= e(base_route('auth/authenticate')) ?>">
                     <div class="mb-3">
-                        <label class="form-label">Nom d'utilisateur</label>
-                        <input type="text" name="username" class="form-control" required>
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mot de passe</label>
-                        <input type="password" name="password" class="form-control" required>
+                        <div class="input-group">
+                            <input type="password" name="password" id="loginPassword" class="form-control" required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Afficher le mot de passe">👁️</button>
+                        </div>
                     </div>
                     <button class="btn btn-dark w-100">Se connecter</button>
                 </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const toggle = document.getElementById('togglePassword');
+                        const password = document.getElementById('loginPassword');
+
+                        if (toggle && password) {
+                            toggle.addEventListener('click', function () {
+                                if (password.type === 'password') {
+                                    password.type = 'text';
+                                    toggle.textContent = '🙈';
+                                    toggle.setAttribute('aria-label', 'Masquer le mot de passe');
+                                } else {
+                                    password.type = 'password';
+                                    toggle.textContent = '👁️';
+                                    toggle.setAttribute('aria-label', 'Afficher le mot de passe');
+                                }
+                            });
+                        }
+                    });
+                </script>
                 <div class="mt-3 small text-muted">
-                    Démo: admin / admin123 ou vendeur / seller123
+                    Démo: admin@example.com / admin123 ou vendeur@example.com / seller123
                 </div>
             </div>
         </div>

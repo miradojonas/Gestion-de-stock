@@ -20,10 +20,6 @@
                         <label class="form-label">Quantité</label>
                         <input type="number" name="quantity" class="form-control" min="1" required>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Motif</label>
-                        <input type="text" name="motif" class="form-control" placeholder="Réception fournisseur, ajustement...">
-                    </div>
                     <button class="btn btn-success">Enregistrer l'entrée</button>
                 </form>
             </div>

@@ -19,16 +19,16 @@ class AuthController
             redirect_to('auth/loginForm');
         }
 
-        $username = trim($_POST['username'] ?? '');
+        $email = trim($_POST['email'] ?? '');
         $password = (string) ($_POST['password'] ?? '');
 
-        if ($username === '' || $password === '') {
+        if ($email === '' || $password === '') {
             flash('error', 'Veuillez remplir tous les champs.');
             redirect_to('auth/loginForm');
         }
 
         $userModel = new User();
-        $user = $userModel->findByUsername($username);
+        $user = $userModel->findByEmail($email);
 
         if (!$user || !password_verify($password, $user['password_hash'])) {
             flash('error', 'Identifiants invalides.');

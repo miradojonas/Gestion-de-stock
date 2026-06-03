@@ -9,9 +9,6 @@
             <?php if ($user): ?>
                 <li class="nav-item"><a class="nav-link" href="<?= e(base_route('dashboard/index')) ?>">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="<?= e(base_route('product/index')) ?>">Produits</a></li>
-                <?php if ($user['role'] === 'ADMIN'): ?>
-                    <li class="nav-item"><a class="nav-link" href="<?= e(base_route('stock/inForm')) ?>">Ajout</a></li>
-                <?php endif; ?>
                 <li class="nav-item"><a class="nav-link" href="<?= e(base_route('stock/history')) ?>">Historique</a></li>
                 <?php if ($user['role'] === 'ADMIN'): ?>
                     <li class="nav-item"><a class="nav-link" href="<?= e(base_route('category/index')) ?>">Catégories</a></li>

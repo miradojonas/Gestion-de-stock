@@ -23,7 +23,6 @@ class StockController
 
         $productId = (int) ($_POST['product_id'] ?? 0);
         $quantity = (int) ($_POST['quantity'] ?? 0);
-        $motif = trim($_POST['motif'] ?? '');
 
         if ($productId <= 0 || $quantity <= 0) {
             flash('error', 'Quantité ou produit invalide.');
@@ -48,7 +47,6 @@ class StockController
                 'movement_type' => 'IN',
                 'quantity' => $quantity,
                 'user_id' => current_user()['id'],
-                'motif' => $motif !== '' ? $motif : 'Entrée de stock',
             ]);
 
             $pdo->commit();
@@ -80,7 +78,6 @@ class StockController
 
         $productId = (int) ($_POST['product_id'] ?? 0);
         $quantity = (int) ($_POST['quantity'] ?? 0);
-        $motif = trim($_POST['motif'] ?? '');
 
         if ($productId <= 0 || $quantity <= 0) {
             flash('error', 'Quantité ou produit invalide.');
@@ -109,7 +106,6 @@ class StockController
                 'movement_type' => 'OUT',
                 'quantity' => $quantity,
                 'user_id' => current_user()['id'],
-                'motif' => $motif !== '' ? $motif : 'Sortie de stock',
             ]);
 
             $pdo->commit();
@@ -148,8 +144,6 @@ class StockController
 
             $productId = (int) ($_POST['product_id'] ?? 0);
             $quantity = (int) ($_POST['quantity'] ?? 0);
-            $motif = trim($_POST['motif'] ?? 'Vente');
-
             if ($productId <= 0 || $quantity <= 0) {
                 http_response_code(400);
                 echo json_encode(['error' => 'Produit ou quantité invalide']);
@@ -183,7 +177,6 @@ class StockController
                 'movement_type' => 'OUT',
                 'quantity' => $quantity,
                 'user_id' => current_user()['id'],
-                'motif' => $motif,
             ]);
 
             $pdo->commit();

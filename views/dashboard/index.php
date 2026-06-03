@@ -40,6 +40,49 @@
     </div>
 </div>
 
+<?php $dashboardUser = current_user(); ?>
+<div class="row g-3 mb-4">
+    <?php if ($dashboardUser && $dashboardUser['role'] === 'ADMIN'): ?>
+        <div class="col-md-6">
+            <div class="card card-shadow metric-card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Total ventes (tous vendeurs)</div>
+                    <?php $countAll = $totalSalesCountAll ?? 0; ?>
+                    <?php $labelAll = $countAll === 1 ? 'vente' : 'ventes'; ?>
+                    <div class="d-flex flex-column">
+                        <div class="display-6 fw-semibold text-primary">
+                            <?= e(number_format($totalSalesAll ?? 0, 2, ',', ' ')) ?> <small class="text-primary">Ar</small>
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge bg-light text-primary border"><?= e($countAll) ?> <?= e($labelAll) ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($dashboardUser && $dashboardUser['role'] === 'VENDEUR'): ?>
+        <div class="col-md-6">
+            <div class="card card-shadow metric-card h-100">
+                <div class="card-body">
+                    <div class="text-muted small">Mes ventes</div>
+                    <?php $countUser = $totalSalesCountUser ?? 0; ?>
+                    <?php $labelUser = $countUser === 1 ? 'vente' : 'ventes'; ?>
+                    <div class="d-flex flex-column">
+                        <div class="display-6 fw-semibold text-primary">
+                            <?= e(number_format($totalSalesUser ?? 0, 2, ',', ' ')) ?> <small class="text-primary">Ar</small>
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge bg-light text-muted small border"><?= e($countUser) ?> <?= e($labelUser) ?></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
 <div class="row g-4">
     <div class="col-lg-5">
         <div class="card card-shadow h-100">

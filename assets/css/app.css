@@ -1,0 +1,39 @@
+body {
+    background: #f5f7fb;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.card-shadow {
+    border: 0;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.metric-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+}
+
+.table thead th {
+    background: #0f172a;
+    color: #fff;
+    border-color: #0f172a;
+}
+
+.product-sale-link {
+    cursor: pointer;
+}
+
+.product-sale-link:hover {
+    text-decoration: underline;
+}
+
+.navbar-nav .nav-link[href*="stock/outForm"] {
+    display: none !important;
+}
+
+.badge-role {
+    font-size: 0.78rem;
+}

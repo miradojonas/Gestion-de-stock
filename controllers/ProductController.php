@@ -20,7 +20,6 @@ class ProductController
 
         render('products/form', [
             'product' => null,
-            'categories' => (new Category())->all(),
             'types' => (new Type())->all(),
             'formAction' => base_route('product/store'),
         ]);
@@ -71,7 +70,6 @@ class ProductController
 
         render('products/form', [
             'product' => $product,
-            'categories' => (new Category())->all(),
             'types' => (new Type())->all(),
             'formAction' => base_route('product/update', ['id' => $id]),
         ]);
@@ -124,8 +122,7 @@ class ProductController
             'prix_vente' => (float) ($_POST['prix_vente'] ?? 0),
             'quantite' => (int) ($_POST['quantite'] ?? 0),
             'stock_min' => (int) ($_POST['stock_min'] ?? 0),
-            'image_path' => $imagePath !== '' ? $imagePath : $existingImagePath,
-            'category_id' => !empty($_POST['category_id']) ? (int) $_POST['category_id'] : null,
+            'image_path' => !empty($imagePath) ? $imagePath : (!empty($existingImagePath) ? $existingImagePath : null),
             'type_id' => !empty($_POST['type_id']) ? (int) $_POST['type_id'] : null,
             'actif' => isset($_POST['actif']) ? 1 : 0,
         ];

@@ -63,9 +63,9 @@ class Product extends BaseModel
     {
         return $this->execute(
             'INSERT INTO products
-            (libelle, prix_achat, prix_vente, quantite, stock_min, image_path, category_id, type_id, actif)
+            (libelle, prix_achat, prix_vente, quantite, stock_min, image_path, type_id, actif)
             VALUES
-            (:libelle, :prix_achat, :prix_vente, :quantite, :stock_min, :image_path, :category_id, :type_id, :actif)',
+            (:libelle, :prix_achat, :prix_vente, :quantite, :stock_min, :image_path, :type_id, :actif)',
             $data
         );
     }
@@ -82,7 +82,6 @@ class Product extends BaseModel
                 quantite = :quantite,
                 stock_min = :stock_min,
                 image_path = :image_path,
-                category_id = :category_id,
                 type_id = :type_id,
                 actif = :actif
              WHERE id = :id',

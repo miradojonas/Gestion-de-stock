@@ -2,13 +2,33 @@
 
 declare(strict_types=1);
 
+// Configuration des sessions
 if (session_status() === PHP_SESSION_NONE) {
+    ini_set('session.gc_maxlifetime', '1800'); // 30 minutes
     session_start();
+}
+
+// Timeout d'inactivité (en secondes)
+const SESSION_TIMEOUT = 1800; // 30 minutes
+
+// Vérifier l'expiration de la session
+if (isset($_SESSION['user'])) {
+    if (!isset($_SESSION['last_activity'])) {
+        $_SESSION['last_activity'] = time();
+    }
+    
+    if (time() - $_SESSION['last_activity'] > SESSION_TIMEOUT) {
+        // Session expirée
+        session_destroy();
+        session_start();
+    } else {
+        $_SESSION['last_activity'] = time();
+    }
 }
 
 define('APP_NAME', 'Gestion Stock');
 
-define('APP_DEBUG', true);
+define('APP_DEBUG', false);
 
 function base_route(string $route, array $params = []): string
 {

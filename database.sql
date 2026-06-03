@@ -75,3 +75,16 @@ CREATE TABLE stock_movements (
 INSERT INTO users (username, email, password_hash, role) VALUES
 ('admin', 'admin@example.com', '$2y$10$BsNvcBxx8l2XViTw5TqYOO/sZrskk9bnkqahEOsoic8Ht6RAbpg.K', 'ADMIN'),
 ('vendeur', 'vendeur@example.com', '$2y$10$vyG2mRv8MXokItFvEno1UeAGN8I7Z1WUVDC9Phg3a40QLI3RTVeg.', 'VENDEUR');
+
+-- Catégorie et types par défaut
+INSERT INTO categories (name) VALUES
+('Boisson');
+
+INSERT INTO types (name, category_id) VALUES
+('Alcools forts', 1),
+('Vins', 1),
+('Bières', 1),
+('Apéritifs/Digestifs', 1),
+('Cocktails/Mélanges', 1),
+('Soft/Sans alcool', 1),
+('Chaud', 1);

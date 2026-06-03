@@ -34,17 +34,6 @@
                             <?php endif; ?>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Catégorie</label>
-                            <select name="category_id" class="form-select">
-                                <option value="">-- Sélectionner --</option>
-                                <?php foreach ($categories as $category): ?>
-                                    <option value="<?= e($category['id']) ?>" <?= (int)($product['category_id'] ?? 0) === (int) $category['id'] ? 'selected' : '' ?>>
-                                        <?= e($category['name']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
                             <label class="form-label">Type</label>
                             <select name="type_id" class="form-select">
                                 <option value="">-- Sélectionner --</option>

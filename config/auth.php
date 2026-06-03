@@ -32,6 +32,7 @@ function logout_user(): void
 function require_login(): void
 {
     if (!is_logged_in()) {
+        flash('error', 'Session expirée. Veuillez vous connecter à nouveau.');
         redirect_to('auth/loginForm');
     }
 }

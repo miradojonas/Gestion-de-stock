@@ -19,6 +19,7 @@
         <table class="table mb-0 align-middle" id="productTable">
             <thead>
             <tr>
+                <th>Image</th>
                 <th>Libellé</th>
                 <th>Catégorie</th>
                 <th>Type</th>
@@ -34,6 +35,13 @@
             <tbody>
             <?php foreach ($products as $product): ?>
                 <tr>
+                    <td>
+                        <?php if (!empty($product['image_path'])): ?>
+                            <img src="<?= e($product['image_path']) ?>" alt="<?= e($product['libelle']) ?>" style="max-width: 60px; max-height: 60px; object-fit: cover; border-radius: 4px;">
+                        <?php else: ?>
+                            <span class="text-muted small">-</span>
+                        <?php endif; ?>
+                    </td>
                     <td>
                         <?php if (current_user()['role'] === 'VENDEUR'): ?>
                             <a href="#" class="product-sale-link text-decoration-none" data-bs-toggle="modal" data-bs-target="#saleModal"

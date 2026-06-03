@@ -75,20 +75,3 @@ CREATE TABLE stock_movements (
 INSERT INTO users (username, email, password_hash, role) VALUES
 ('admin', 'admin@example.com', '$2y$10$BsNvcBxx8l2XViTw5TqYOO/sZrskk9bnkqahEOsoic8Ht6RAbpg.K', 'ADMIN'),
 ('vendeur', 'vendeur@example.com', '$2y$10$vyG2mRv8MXokItFvEno1UeAGN8I7Z1WUVDC9Phg3a40QLI3RTVeg.', 'VENDEUR');
-
-INSERT INTO categories (name) VALUES
-('Fournitures'),
-('Electronique'),
-('Bureautique');
-
-INSERT INTO types (name, category_id) VALUES
-('Papeterie', 1),
-('Accessoires', 1),
-('Accessoires PC', 2),
-('Imprimantes', 2),
-('Mobilier', 3);
-
-INSERT INTO products (libelle, prix_achat, prix_vente, quantite, stock_min, image_path, category_id, type_id, actif) VALUES
-('Cahier A4', 1.50, 2.50, 40, 10, NULL, 1, 1, 1),
-('Souris sans fil', 8.00, 15.00, 12, 5, NULL, 2, 3, 1),
-('Chaise bureau', 35.00, 55.00, 6, 3, NULL, 3, 5, 1);

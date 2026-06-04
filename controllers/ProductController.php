@@ -84,13 +84,36 @@ class ProductController
         }
 
         $id = (int) ($_GET['id'] ?? 0);
+        $payload = $this->payloadFromRequest();
+
+        $pdo = db();
+        $pdo->beginTransaction();
 
         try {
-            (new Product())->update($id, $this->payloadFromRequest());
+            $productModel = new Product();
+            $existingProduct = $productModel->find($id);
 
+            if (!$existingProduct) {
+                throw new RuntimeException('Produit introuvable.');
+            }
+
+            $productModel->update($id, $payload);
+
+            $quantityDiff = $payload['quantite'] - (int) $existingProduct['quantite'];
+            if ($quantityDiff !== 0) {
+                (new StockMovement())->create([
+                    'product_id' => $id,
+                    'movement_type' => $quantityDiff > 0 ? 'IN' : 'OUT',
+                    'quantity' => abs($quantityDiff),
+                    'user_id' => current_user()['id'],
+                ]);
+            }
+
+            $pdo->commit();
             flash('success', 'Produit mis à jour.');
             redirect_to('product/index');
         } catch (Throwable $e) {
+            $pdo->rollBack();
             flash('error', $e->getMessage());
             redirect_to('product/edit', ['id' => $id]);
         }
@@ -162,7 +185,7 @@ class ProductController
             throw new RuntimeException('Impossible de créer le dossier d’upload.');
         }
 
-        if (!is_writable($uploadDir) && !chmod($uploadDir, 0755)) {
+        if (!is_writable($uploadDir)) {
             throw new RuntimeException('Le dossier d’upload n’est pas accessible en écriture.');
         }
 

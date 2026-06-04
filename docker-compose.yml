@@ -1,0 +1,38 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8081:80"
+    volumes:
+      - ./:/var/www/html
+      - ./uploads:/var/www/html/uploads
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: gestion_stock
+      DB_USER: gestion_user
+      DB_PASSWORD: gestion_pass123
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword123
+      MYSQL_DATABASE: gestion_stock
+      MYSQL_USER: gestion_user
+      MYSQL_PASSWORD: gestion_pass123
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql:ro
+
+  adminer:
+    image: adminer
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

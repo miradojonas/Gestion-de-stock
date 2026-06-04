@@ -13,7 +13,9 @@
                         <label class="form-label">Mot de passe</label>
                         <div class="input-group">
                             <input type="password" name="password" id="loginPassword" class="form-control" required>
-                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Afficher le mot de passe">👁️</button>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Afficher le mot de passe">
+                                <i class="fas fa-eye"></i>
+                            </button>
                         </div>
                     </div>
                     <button class="btn btn-dark w-100">Se connecter</button>
@@ -27,20 +29,17 @@
                             toggle.addEventListener('click', function () {
                                 if (password.type === 'password') {
                                     password.type = 'text';
-                                    toggle.textContent = '🙈';
+                                    toggle.innerHTML = '<i class="fas fa-eye-slash"></i>';
                                     toggle.setAttribute('aria-label', 'Masquer le mot de passe');
                                 } else {
                                     password.type = 'password';
-                                    toggle.textContent = '👁️';
+                                    toggle.innerHTML = '<i class="fas fa-eye"></i>';
                                     toggle.setAttribute('aria-label', 'Afficher le mot de passe');
                                 }
                             });
                         }
                     });
                 </script>
-                <div class="mt-3 small text-muted">
-                    Démo: admin@example.com / admin123 ou vendeur@example.com / seller123
-                </div>
             </div>
         </div>
     </div>

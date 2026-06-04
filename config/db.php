@@ -12,13 +12,14 @@ function db(): PDO
         return $pdo;
     }
 
-    $socket = '/opt/lampp/var/mysql/mysql.sock';
-    $database = 'gestion_stock';
-    $username = 'root';
-    $password = '';
+    $host = $_ENV['DB_HOST'] ?? 'db';
+    $port = $_ENV['DB_PORT'] ?? '3306';
+    $database = $_ENV['DB_NAME'] ?? 'gestion_stock';
+    $username = $_ENV['DB_USER'] ?? 'root';
+    $password = $_ENV['DB_PASSWORD'] ?? '';
     $charset = 'utf8mb4';
 
-    $dsn = "mysql:unix_socket={$socket};dbname={$database};charset={$charset}";
+    $dsn = "mysql:host={$host};port={$port};dbname={$database};charset={$charset}";
 
     try {
         $pdo = new PDO($dsn, $username, $password, [

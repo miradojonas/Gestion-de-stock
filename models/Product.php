@@ -9,10 +9,11 @@ class Product extends BaseModel
     public function all(): array
     {
         return $this->fetchAll(
-            'SELECT p.*, c.name AS category_name, t.name AS type_name
+            'SELECT p.*, c.name AS category_name, t.name AS type_name, tc.name AS type_category_name
              FROM products p
              LEFT JOIN categories c ON c.id = p.category_id
              LEFT JOIN types t ON t.id = p.type_id
+             LEFT JOIN categories tc ON tc.id = t.category_id
              ORDER BY p.libelle ASC'
         );
     }
@@ -20,10 +21,11 @@ class Product extends BaseModel
     public function allActive(): array
     {
         return $this->fetchAll(
-            'SELECT p.*, c.name AS category_name, t.name AS type_name
+            'SELECT p.*, c.name AS category_name, t.name AS type_name, tc.name AS type_category_name
              FROM products p
              LEFT JOIN categories c ON c.id = p.category_id
              LEFT JOIN types t ON t.id = p.type_id
+             LEFT JOIN categories tc ON tc.id = t.category_id
              WHERE p.actif = 1
              ORDER BY p.libelle ASC'
         );
@@ -32,10 +34,11 @@ class Product extends BaseModel
     public function find(int $id): ?array
     {
         return $this->fetchOne(
-            'SELECT p.*, c.name AS category_name, t.name AS type_name
+            'SELECT p.*, c.name AS category_name, t.name AS type_name, tc.name AS type_category_name
              FROM products p
              LEFT JOIN categories c ON c.id = p.category_id
              LEFT JOIN types t ON t.id = p.type_id
+             LEFT JOIN categories tc ON tc.id = t.category_id
              WHERE p.id = :id
              LIMIT 1',
             ['id' => $id]
@@ -50,10 +53,11 @@ class Product extends BaseModel
     public function lowStock(): array
     {
         return $this->fetchAll(
-            'SELECT p.*, c.name AS category_name, t.name AS type_name
+            'SELECT p.*, c.name AS category_name, t.name AS type_name, tc.name AS type_category_name
              FROM products p
              LEFT JOIN categories c ON c.id = p.category_id
              LEFT JOIN types t ON t.id = p.type_id
+             LEFT JOIN categories tc ON tc.id = t.category_id
              WHERE p.actif = 1 AND p.quantite <= p.stock_min
              ORDER BY p.quantite ASC, p.libelle ASC'
         );

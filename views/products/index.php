@@ -54,7 +54,12 @@
                             <?= e($product['libelle']) ?>
                         <?php endif; ?>
                     </td>
-                    <td><?= e($product['category_name'] ?? '-') ?></td>
+                    <td>
+                        <?php
+                        $categoryDisplay = $product['category_name'] ?? $product['type_category_name'] ?? null;
+                        echo $categoryDisplay ? e($categoryDisplay) : '-';
+                        ?>
+                    </td>
                     <td><?= e($product['type_name'] ?? '-') ?></td>
                     <td><?= e(number_format((float) $product['prix_vente'], 2, ',', ' ')) ?></td>
                     <td>

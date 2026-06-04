@@ -19,7 +19,7 @@
                         <option value="ADMIN">Admin</option>
                     </select>
 
-                    <button class="btn btn-dark w-100">Créer le vendeur</button>
+                    <button class="btn btn-dark w-100">Créer</button>
                 </form>
             </div>
         </div>

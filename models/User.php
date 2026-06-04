@@ -47,9 +47,4 @@ class User extends BaseModel
     {
         return $this->execute('DELETE FROM users WHERE id = :id', ['id' => $id]);
     }
-
-    public function updateRole(int $id, string $role): bool
-    {
-        return $this->execute('UPDATE users SET role = :role WHERE id = :id', ['role' => $role, 'id' => $id]);
-    }
 }

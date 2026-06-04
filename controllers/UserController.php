@@ -95,32 +95,4 @@ class UserController
         flash('success', 'Utilisateur supprimé.');
         redirect_to('user/index');
     }
-
-    public function updateRole(): void
-    {
-        require_role('ADMIN');
-
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redirect_to('user/index');
-        }
-
-        $id = (int) ($_POST['id'] ?? 0);
-        $role = strtoupper(trim($_POST['role'] ?? ''));
-
-        if ($id <= 0 || !in_array($role, ['ADMIN', 'VENDEUR'], true)) {
-            flash('error', 'Données invalides.');
-            redirect_to('user/index');
-        }
-
-        $userModel = new User();
-        $existing = $userModel->findById($id);
-        if (!$existing) {
-            flash('error', 'Utilisateur introuvable.');
-            redirect_to('user/index');
-        }
-
-        $userModel->updateRole($id, $role);
-        flash('success', 'Rôle mis à jour.');
-        redirect_to('user/index');
-    }
 }

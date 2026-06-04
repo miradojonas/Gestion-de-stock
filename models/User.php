@@ -31,6 +31,15 @@ class User extends BaseModel
 
     public function all(): array
     {
-        return $this->fetchAll('SELECT id, username, role FROM users ORDER BY username ASC');
+        return $this->fetchAll('SELECT id, username, email, role FROM users ORDER BY username ASC');
+    }
+
+    public function create(array $data): bool
+    {
+        return $this->execute(
+            'INSERT INTO users (username, email, password_hash, role)
+             VALUES (:username, :email, :password_hash, :role)',
+            $data
+        );
     }
 }

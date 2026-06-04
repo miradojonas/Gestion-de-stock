@@ -13,6 +13,7 @@
                 <?php if ($user['role'] === 'ADMIN'): ?>
                     <li class="nav-item"><a class="nav-link" href="<?= e(base_route('category/index')) ?>">Catégories</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= e(base_route('type/index')) ?>">Types</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= e(base_route('user/index')) ?>">Utilisateurs</a></li>
                 <?php endif; ?>
             <?php endif; ?>
         </ul>

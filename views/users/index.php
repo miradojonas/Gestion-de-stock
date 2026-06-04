@@ -13,7 +13,13 @@
                     <label class="form-label">Mot de passe</label>
                     <input type="password" name="password" class="form-control mb-3" required>
 
-                    <button class="btn btn-dark w-100">Créer le vendeur</button>
+                    <label class="form-label">Rôle</label>
+                    <select name="role" class="form-select mb-3">
+                        <option value="VENDEUR">Vendeur</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+
+                    <button class="btn btn-dark w-100">Créer</button>
                 </form>
             </div>
         </div>
@@ -29,6 +35,7 @@
                             <th>Nom</th>
                             <th>Email</th>
                             <th>Rôle</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,6 +47,12 @@
                                     <span class="badge <?= $user['role'] === 'ADMIN' ? 'text-bg-primary' : 'text-bg-secondary' ?>">
                                         <?= e($user['role']) ?>
                                     </span>
+                                </td>
+                                <td>
+                                    <form method="post" action="<?= e(base_route('user/destroy')) ?>" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                                        <input type="hidden" name="id" value="<?= e($user['id']) ?>">
+                                        <button class="btn btn-sm btn-danger">Supprimer</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

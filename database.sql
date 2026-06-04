@@ -1,6 +1,11 @@
 CREATE DATABASE IF NOT EXISTS gestion_stock CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE gestion_stock;
 
+SET NAMES utf8mb4;
+SET character_set_client = utf8mb4;
+SET character_set_results = utf8mb4;
+SET character_set_connection = utf8mb4;
+
 SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS stock_movements;
 DROP TABLE IF EXISTS products;

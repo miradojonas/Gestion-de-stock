@@ -42,20 +42,85 @@ class UserController
             redirect_to('user/index');
         }
 
+        $role = strtoupper(trim($_POST['role'] ?? 'VENDEUR'));
+
+        if (!in_array($role, ['ADMIN', 'VENDEUR'], true)) {
+            $role = 'VENDEUR';
+        }
+
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         if ($passwordHash === false) {
             flash('error', 'Impossible de générer le mot de passe.');
             redirect_to('user/index');
         }
-
         $userModel->create([
             'username' => $username,
             'email' => $email,
             'password_hash' => $passwordHash,
-            'role' => 'VENDEUR',
+            'role' => $role,
         ]);
 
-        flash('success', 'Compte vendeur créé avec succès.');
+        flash('success', 'Compte créé avec succès.');
+        redirect_to('user/index');
+    }
+
+    public function destroy(): void
+    {
+        require_role('ADMIN');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect_to('user/index');
+        }
+
+        $id = (int) ($_POST['id'] ?? 0);
+        if ($id <= 0) {
+            flash('error', 'Utilisateur invalide.');
+            redirect_to('user/index');
+        }
+
+        $userModel = new User();
+        $existing = $userModel->findById($id);
+        if (!$existing) {
+            flash('error', 'Utilisateur introuvable.');
+            redirect_to('user/index');
+        }
+
+        // Prevent deleting the currently logged user
+        if (current_user()['id'] === $existing['id']) {
+            flash('error', 'Vous ne pouvez pas supprimer votre propre compte.');
+            redirect_to('user/index');
+        }
+
+        $userModel->delete($id);
+        flash('success', 'Utilisateur supprimé.');
+        redirect_to('user/index');
+    }
+
+    public function updateRole(): void
+    {
+        require_role('ADMIN');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect_to('user/index');
+        }
+
+        $id = (int) ($_POST['id'] ?? 0);
+        $role = strtoupper(trim($_POST['role'] ?? ''));
+
+        if ($id <= 0 || !in_array($role, ['ADMIN', 'VENDEUR'], true)) {
+            flash('error', 'Données invalides.');
+            redirect_to('user/index');
+        }
+
+        $userModel = new User();
+        $existing = $userModel->findById($id);
+        if (!$existing) {
+            flash('error', 'Utilisateur introuvable.');
+            redirect_to('user/index');
+        }
+
+        $userModel->updateRole($id, $role);
+        flash('success', 'Rôle mis à jour.');
         redirect_to('user/index');
     }
 }
